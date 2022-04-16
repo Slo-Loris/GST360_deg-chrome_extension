@@ -4,7 +4,7 @@ import { sendXHR } from "./utils";
   console.log("Content script is running...");
 
   setInterval(() => {
-    console.log("Dei irukia...");
+    console.log(window.location.href);
   }, 5000);
 })();
 
