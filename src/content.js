@@ -13,8 +13,14 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
   let reqHostName = new URL(request.url).hostname;
   if (reqHostName === window.location.hostname) {
     sendXHR(request).then((data) => {
-      console.log(JSON.parse(data));
-      response(JSON.parse(data));
+      if (request.responseType === "arraybuffer") {
+        let url = window.URL.createObjectURL(
+          new Blob([data], { type: "application/pdf" })
+        );
+        response(url);
+      } else {
+        response(JSON.parse(data));
+      }
       //chrome.runtime.sendMessage({ ...data, id: requestId }, (response) => {});
     });
     return true;

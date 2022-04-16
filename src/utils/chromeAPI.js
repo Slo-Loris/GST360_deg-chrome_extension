@@ -17,6 +17,7 @@ export const sendMessage = async (request, key) => {
   let tabId = await getActiveTabId();
   return new Promise((resolve) =>
     chrome.tabs.sendMessage(tabId, request, (response) => {
+      console.log(response);
       resolve({ data: response, key: key });
     })
   );

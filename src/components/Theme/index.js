@@ -179,13 +179,26 @@ const Theme = ({ darkmode }) => {
                 margin: "2px",
               },
               "& .MuiIconButton-root": {
-                borderRadius: 0,
-                border: 0,
+                borderRadius: "50px",
+                border: "none",
               },
             },
             "& .dg-cell-text": {
               //color: "#FF0000",
             },
+          },
+        },
+      },
+
+      MuiCalendarPicker: {
+        styleOverrides: {
+          root: {
+            "& .MuiIconButton-root": {
+              borderRadius: "50px",
+              border: "none",
+            },
+            height: "360px",
+            width: "300px",
           },
         },
       },

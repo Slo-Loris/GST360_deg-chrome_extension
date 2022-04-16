@@ -1,11 +1,11 @@
-export const sendXHR = ({ url, method, params, body }) => {
+export const sendXHR = ({ url, method, params, body, responseType }) => {
   let requestConfig = {
     method: method,
     credentials: "include",
     redirect: "follow",
     headers: {
       Accept: "application/json, text/plain, */*",
-      "Content-Type": "application/json;charset=UTF-8",
+      "Content-Type": "application/json;charset=ISO-8859-1",
     },
   };
 
@@ -14,9 +14,15 @@ export const sendXHR = ({ url, method, params, body }) => {
 
   return new Promise((resolve) => {
     fetch(url, requestConfig).then((response) => {
-      response.text().then((data) => {
-        resolve(data);
-      });
+      if (responseType === "arraybuffer") {
+        response.arrayBuffer().then((data) => {
+          resolve(data);
+        });
+      } else {
+        response.text().then((data) => {
+          resolve(data);
+        });
+      }
     });
   });
 };

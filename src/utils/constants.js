@@ -61,7 +61,7 @@ export const PORTAL_ENDPOINTS = {
     body: {
       caseTypeCd: "RFUND",
       startDate: "31/12/2021",
-      endDate: "15/01/2022",
+      endDate: "15/04/2022",
     },
   },
   folderDetails: {
@@ -76,6 +76,23 @@ export const PORTAL_ENDPOINTS = {
     method: "POST",
     body: {
       caseFolderId: new Number(),
+    },
+  },
+  encryptedDocId: {
+    url: "https://services.gst.gov.in/litserv/auth/api/usr/getEncrypDocIds",
+    method: "POST",
+    body: {
+      arn: new String(),
+      docIdList: new Array(),
+    },
+  },
+  downloadDocs: {
+    url: "https://services.gst.gov.in/downloadhb/download/new",
+    method: "GET",
+    param: {
+      docId: new String(),
+      arn: new String(),
+      eh: new String(),
     },
   },
 };
