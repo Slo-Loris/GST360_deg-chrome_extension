@@ -8,6 +8,8 @@ import ActionCards from "./ActionCards";
 import Returns from "../Returns";
 import Applications from "../Applications";
 import LedgerBalance from "./LedgerBalance";
+import ReturnFilingStatus from "../ReturnFilingStatus";
+import Gstr2B from "../Returns/Gstr2B";
 
 const Home = () => {
   const [hostName, setHostName] = React.useState("");
@@ -102,16 +104,25 @@ const Home = () => {
         } else return <LoginAlert alertType={2} />;
 
       case "return.gst.gov.in":
-        return (
-          <>
-            <div style={{ marginTop: "8px" }}>
-              <UserDetails data={userDetails} />
+        if (
+          activeTabURL ===
+          "https://return.gst.gov.in/returns/auth/efiledReturns"
+        ) {
+          return <ReturnFilingStatus />;
+        } else
+          return (
+            <>
               <div style={{ marginTop: "8px" }}>
-                <Returns data={dropDownData} />
+                <UserDetails data={userDetails} />
+                <div style={{ marginTop: "8px" }}>
+                  <Returns data={dropDownData} />
+                </div>
               </div>
-            </div>
-          </>
-        );
+            </>
+          );
+
+      case "gstr2b.gst.gov.in":
+        return <Gstr2B />;
 
       default:
         return <LoginAlert alertType={1} />;

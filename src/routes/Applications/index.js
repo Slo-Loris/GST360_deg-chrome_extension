@@ -10,6 +10,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TextField } from "@mui/material";
 import moment from "moment";
+
 const Applications = () => {
   const [tableData, setTableData] = React.useState([]);
   const [loadingDialog, setLoadingDialog] = React.useState(false);

@@ -46,27 +46,23 @@ const LoginAlert = ({ alertType, onClick }) => {
         <Typography variant="body1" sx={{ mb: "16px", textAlign: "center" }}>
           {alertMessage[alertType].message}
         </Typography>
-        {alertType === "1" && (
-          <Button
-            id={"open-url-button"}
-            variant="outlined"
-            onClick={(e) => onClick(e)}
-          >
-            Open GST Portal
-          </Button>
-        )}
+        (
+        <Button id={"open-url-button"} variant="outlined" onClick={onClick}>
+          Open GST Portal
+        </Button>
+        )
       </div>
     </>
   );
 };
 
 LoginAlert.propTypes = {
-  alertType: PropTypes.number,
+  alertType: PropTypes.string,
   onClick: PropTypes.func,
 };
 
 LoginAlert.defaultProps = {
-  alertType: 1,
+  alertType: "1",
 };
 
 export default LoginAlert;
