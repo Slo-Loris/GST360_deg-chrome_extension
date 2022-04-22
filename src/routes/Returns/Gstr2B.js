@@ -12,6 +12,7 @@ import {
 import CustomDataGrid from "../../components/DataGrid";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import _ from "lodash";
 
 const Gstr2B = () => {
   const [tableData, setTableData] = React.useState([]);
@@ -28,8 +29,6 @@ const Gstr2B = () => {
       );
     });
   };
-
-  //fc - file count. If docdata is not available, then check for fc. get all files using fc, merge all doc data and then generate excel.
 
   const onClick = () => {
     setTableData(
@@ -58,8 +57,27 @@ const Gstr2B = () => {
     };
     let response2 = await sendMessage(request2, "gstr2b-json");
     if (response2.data.data) {
-      //TODO: Implement download logic in case of multiple parts for a single period
-      generateExcel(response1.data?.data, response2.data?.data);
+      if (response2.data.data.fc) {
+        let data1 = response2.data.data;
+        let promises = [
+          ...[...Array(response2.data.data.fc).keys()].map((i) => i + 1),
+        ].map(async (i) => {
+          let request3 = deepClone(PORTAL_ENDPOINTS.gstr2bJson);
+          request3.params = {
+            rtnprd: item?.value,
+            fn: i,
+          };
+          return await sendMessage(request3, "gstr2b-json");
+        });
+        let data2 = await Promise.all(promises);
+        let data3 = _.merge(
+          data1,
+          ...data2.map((item) => {
+            return item.data.data;
+          })
+        );
+        generateExcel(response1.data?.data, data3);
+      } else generateExcel(response1.data?.data, response2.data?.data);
     } else console.log(response2.data.error.message);
     setLoadingDialog(false);
   };
@@ -69,6 +87,8 @@ const Gstr2B = () => {
       handleDownload(item.id);
     });
   };
+
+  const handleConsolidatedDownload = async () => {};
 
   const columns = [
     {
@@ -172,17 +192,31 @@ const Gstr2B = () => {
         hideFooter={false}
       />
       {tableData.length > 0 && (
-        <Button
-          variant="outlined"
-          onClick={handleDownloadAll}
-          sx={{
-            width: "fit-content",
-            height: "fit-content",
-            marginTop: "16px",
-          }}
+        <div
+          style={{ display: "flex", flexDirection: "row", marginTop: "16px" }}
         >
-          Download all
-        </Button>
+          <Button
+            variant="outlined"
+            onClick={handleDownloadAll}
+            sx={{
+              width: "fit-content",
+              height: "fit-content",
+            }}
+          >
+            Download all
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={handleConsolidatedDownload}
+            sx={{
+              width: "fit-content",
+              height: "fit-content",
+              marginLeft: "16px",
+            }}
+          >
+            Consolidated 2B
+          </Button>
+        </div>
       )}
     </div>
   );
