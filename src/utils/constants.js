@@ -60,8 +60,8 @@ export const PORTAL_ENDPOINTS = {
     method: "POST",
     body: {
       caseTypeCd: "RFUND",
-      startDate: "31/12/2021",
-      endDate: "15/04/2022",
+      startDate: "01/07/2017",
+      endDate: "01/07/2017",
     },
   },
   folderDetails: {

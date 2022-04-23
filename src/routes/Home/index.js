@@ -21,11 +21,9 @@ const Home = () => {
 
   React.useEffect(() => {
     if (isInitialRender) {
-      setTimeout(async () => {
+      const asynFn = async () => {
         const tabHostName = await getTabHostName();
         setHostName(tabHostName);
-      }, 500);
-      const asynFn = async () => {
         switch (hostName) {
           case "services.gst.gov.in": {
             const userStatus1 = await sendMessage(

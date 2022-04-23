@@ -2,10 +2,6 @@ import { sendXHR } from "./utils";
 
 (() => {
   console.log("Content script is running...");
-
-  setInterval(() => {
-    console.log(window.location.href);
-  }, 5000);
 })();
 
 //To be changed to port in future if required

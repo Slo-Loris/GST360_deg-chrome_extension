@@ -7,12 +7,12 @@ import {
   sendMessage,
   deepClone,
   dropDown,
-  generateExcel,
 } from "../../utils";
 import CustomDataGrid from "../../components/DataGrid";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import _ from "lodash";
+//import { generateExcel as utils } from "../../utils/download2BExcel";
 
 const Gstr2B = () => {
   const [tableData, setTableData] = React.useState([]);
@@ -46,6 +46,7 @@ const Gstr2B = () => {
 
   const handleDownload = async (id) => {
     setLoadingDialog(true);
+    let utils = await import("../../utils/download2BExcel");
     let request1 = deepClone(PORTAL_ENDPOINTS.gstr2bUserDetails);
     let item = tableData.filter((item) => item.id === id)[0];
     request1.params = { rtnprd: item?.value, fy: year };
@@ -76,8 +77,8 @@ const Gstr2B = () => {
             return item.data.data;
           })
         );
-        generateExcel(response1.data?.data, data3);
-      } else generateExcel(response1.data?.data, response2.data?.data);
+        utils.generateExcel(response1.data?.data, data3);
+      } else utils.generateExcel(response1.data?.data, response2.data?.data);
     } else console.log(response2.data.error.message);
     setLoadingDialog(false);
   };
